@@ -57,7 +57,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     itemOperations={
  *          "get"={
  *             "normalization_context"={
- *                 "groups"={"get-post-with-author"}
+ *                 "groups"={"get-post"}
  *             }
  *         },
  *          "put"={
@@ -72,6 +72,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *             "access_control"="is_granted('ROLE_WRITER')"
  * }
  * },
+ * normalizationContext={"groups"={"post_read"}},
  * denormalizationContext={
  *            "groups"={"post"}
  * }
@@ -86,7 +87,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
       * @ORM\Id
       * @ORM\Column(type="integer")
       * @ORM\GeneratedValue
-      * @Groups({"get-post-with-author"})
+      * @Groups({ "post_read", "get-post"})
       * 
       */
    private ?int $id;
@@ -96,7 +97,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
      * 
      * @Assert\NotBlank(message="Le tire  de l'article est obligatoire")
      * @Assert\Length(min=5,minMessage="Le titre doit faire entre 5 et 255 caractères")
-     *  @Groups({"post", "get-post-with-author"})
+     *  @Groups({"post",  "post_read", "get-post"})
      */
 
    private string $title;
@@ -106,13 +107,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
     * @ORM\Column(type="text")
     * @Assert\NotBlank(message="Le contenu de l'article  est obligatoire")
    *  @Assert\Length(min=20, minMessage="Le contenu doit faire  20   caractères au minumum  ")
-   *  @Groups({"post", "get-post-with-author" })
+   *  @Groups({"post", "post_read", "get-post"})
  */
    private $content;
    /**
     * @var string
     * @ORM\Column(type="text")
-    * @Groups({"post", "get-post-with-author"})
+    * @Groups({"post",  "post_read", "get-post"})
     *
     */
    private string $slug;
@@ -120,7 +121,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
    /**
     * @var DateTimeInterface
     * @ORM\Column(type="datetime_immutable")
-    * @Groups({"get-post-with-author" })
+    * @Groups({"post_read", "get-post" })
     *
     */
    private DateTimeInterface $postedAt;
@@ -128,7 +129,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
  * @ORM\JoinColumn(nullable=false)
- * @Groups({"get-post-with-author" })
+ * @Groups({"post_read", "get-post" })
  * 
  */
 

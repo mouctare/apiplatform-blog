@@ -76,7 +76,7 @@ class Comment implements AuthoredEntityInterface
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"post"})
+     * @Groups({"post", "comments_read"})
      */
     private $post;
 
@@ -151,6 +151,9 @@ class Comment implements AuthoredEntityInterface
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return substr($this->content, 0, 20) . '...';
+    }
   
 }

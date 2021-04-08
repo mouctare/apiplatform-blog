@@ -23,11 +23,14 @@ class AuthoredEntitySubscriber implements EventSubscriberInterface
        
 
     }
+
+    
+
     public static function getSubscribedEvents()
     {
 
         return [
-            KernelEvents:: VIEW => ['getAuthenticatedUser', EventPriorities::PRE_VALIDATE]
+            KernelEvents:: VIEW => ['getAuthenticatedUser', EventPriorities::PRE_WRITE]
         ];
     }
 

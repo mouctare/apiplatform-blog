@@ -16,7 +16,7 @@ use App\Controller\ResetPasswordAction;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
- *     itemOperations={
+ *      itemOperations={
  *         "get"={
  *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
  *             "normalization_context"={
@@ -55,10 +55,8 @@ use App\Controller\ResetPasswordAction;
  *         }
  *     },
  * )
- * )
- *
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity("username", errorPath="username", groups={"post"})
+ * @UniqueEntity("email", groups={"post"})
  */
 
 class User implements UserInterface
@@ -75,13 +73,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"get", "get-blog-post-with-author", "get-comment-with-author"})
+     *  @Groups({"get",  "get-comment-with-author", "get-post-with-author", "comments_read", "post_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "post", "get-comment-with-author", "get-blog-post-with-author"})
+     * @Groups({"get", "post", "get-comment-with-author", "get-post-with-author", "comments_read", "post_read"})
      * @Assert\NotBlank(groups={"post"})
      * @Assert\Length(min=6, max=255, groups={"post"})
      */
@@ -141,7 +139,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "post", "put", "get-comment-with-author", "get-blog-post-with-author"})
+     * @Groups({"get", "post", "put", "get-comment-with-author", "get-post-with-author", "comments_read", "post_read"})
      * @Assert\NotBlank(groups={"post"})
      * @Assert\Length(min=5, max=255, groups={"post", "put"})
      */
@@ -170,7 +168,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="simple_array", length=200)
-     * @Groups({"get-admin", "get-owner", "get-owner" })
+     * @Groups({"get-admin", "get-owner" })
      *
      */
     private $roles;
