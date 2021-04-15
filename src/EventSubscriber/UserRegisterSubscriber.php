@@ -58,10 +58,14 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         }
 
         // It is an User, we need to hash password here
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+        $user->setPassword(
+            $this->passwordEncoder->encodePassword($user, $user->getPassword())
+        );
 
         // Create confirmation token
-        $user->setConfirmationToken($this->tokenGenerator->getRandomSecureToken());
+        $user->setConfirmationToken(
+            $this->tokenGenerator->getRandomSecureToken()
+        );
 
         // Send e-mail here...
         $this->mailer->sendConfirmationEmail($user);
