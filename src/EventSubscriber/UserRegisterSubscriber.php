@@ -23,20 +23,20 @@ class UserRegisterSubscriber implements EventSubscriberInterface
      * @var TokenGenerator
      */
     private $tokenGenerator;
-    /**
-     * @var Mailer
-     */
-    private $mailer;
+    private  $sendEmail;
+  
 
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
-        TokenGenerator $tokenGenerator,
-        Mailer $mailer
+        TokenGenerator $tokenGenerator, Mailer $sendEmail
+    
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->tokenGenerator = $tokenGenerator;
-        $this->mailer = $mailer;
+    
+        $this->sendEmail = $sendEmail;
+    
     }
 
     public static function getSubscribedEvents()
@@ -68,6 +68,16 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         );
 
         // Send e-mail here...
-        $this->mailer->sendConfirmationEmail($user);
+        $this->sendEmail->send([
+            'recipient_email' => $user->getEmail(),
+            'subject' => "Vérification de votre adresse e-mail pour activer votre compte utilisateur",
+            'html_template' => "email/confirmation.html.twig",
+            'context' => [
+                'user' => $user,
+               
+
+            ]
+        ]);
+
     }
 }

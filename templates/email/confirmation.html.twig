@@ -1,11 +1,7 @@
-<h3>
-	Hello
-	{{ user.getName() }}, please confirm your e-mail address.
-</h3>
-
+<h1>Activation de votre compte</h1>
 <p>
-	Please confirm your e-mail address by clicking
-	<a href="{{ url('default_confirm_token', {'token': user.getConfirmationToken()}) }}">this</a>
-	link or, type the code inside the form:
+	Pour activer votre compte, merci de confirmer votre e-mail en cliquant sur le lien suivant :
+	<a href="{{ url('default_confirm_token', {'token': user.getConfirmationToken()}) }}">ici</a>
+	Copier et coller  le code à l'intérieur du formulaire
 	<b>{{ user.getConfirmationToken() }}</b>
 </p>

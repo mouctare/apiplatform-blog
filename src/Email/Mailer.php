@@ -2,44 +2,37 @@
 
 namespace App\Email;
 
-use Swift_Message;
-use App\Entity\User;
-use Twig\Environment;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
-class Mailer
-{
+class Mailer {
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     private $mailer;
 
-    /**
-     * @var \TwigEnvironment
-     */
-    private $twig;
-
-    public function __construct(
-        \Swift_Mailer $mailer, \Twig\Environment $twig
-    )
+    public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
-        $this->twig = $twig;
     }
 
-    public function sendConfirmationEmail(User $user)
+    public function send(array $arguments): void
     {
-        $body = $this->twig->render(
-            'email/confirmation.html.twig',
-            [
-                'user' => $user
-            ]
-        );
+        ['recipient_email' => $recipientEmail, 'subject' => $subject, 'html_template' => $htmlTemplate,'context' => $context ] = $arguments;
 
-        $message = (new Swift_Message('Please confirm your account!'))
-            ->setFrom('diallomouctar7200@gmail.com')
-            ->setTo($user->getEmail())
-            ->setBody($body, 'text/html');
+        $email = new TemplatedEmail();
+        $email->from('diallomouctar7200@gmail.com')
+              ->to($recipientEmail)
+              ->subject($subject)
+              ->htmlTemplate($htmlTemplate)
+              ->context($context);
 
-        $this->mailer->send($message);
+              try {
+                   $this->mailer->send($email);
+              } catch(TransportExceptionInterface $mailerException){
+                  throw $mailerException;
+              }
     }
 }
