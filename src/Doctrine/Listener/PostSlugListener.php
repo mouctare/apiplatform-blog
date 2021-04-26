@@ -14,12 +14,12 @@ class PostSlugListener
     {
        $this->slugger = $slugger;
     }
-    public function prePersist(LifecycleEventArgs $event)
+    public function prePersist(Post $entity, LifecycleEventArgs $event)
     {
-          $entity = $event->getObject();
-          if(!$entity instanceof Post){
-              return;
-          }
+        //  $entity = $event->getObject();
+         // if(!$entity instanceof Post){
+          //    return; pour des soucis de performance , il faut mettre ainsi ceci veut dire qu'on appelle l'evenement que quand il s'agit d'un Post
+         // }
           if(empty($entity->getSlug())) {
               $entity->setSlug(strtolower($this->slugger->slug($entity->getTitle())));
           }
