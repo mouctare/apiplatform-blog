@@ -50,7 +50,15 @@ services:
           method: onAuthenticationSuccessResponse,
         }
   App\Doctrine\Listener\PostSlugListener:
-    tags: [{ name: doctrine.event_listener, event: prePersist }]
+    tags:
+      [
+        {
+          name: doctrine.orm.entity_listener,
+          event: prePersist,
+          entity: App\Entity\Post,
+        },
+      ]
+    #tags: [{ name: doctrine.event_listener, event: prePersist }]
 
   #api.event.authentication_success_listener:
   # class: App\EventListener\AuthenticationSuccessListener
