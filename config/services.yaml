@@ -49,6 +49,8 @@ services:
           event: lexik_jwt_authentication.on_authentication_success,
           method: onAuthenticationSuccessResponse,
         }
+  App\Doctrine\Listener\PostSlugListener:
+    tags: [{ name: doctrine.event_listener, event: prePersist }]
 
   #api.event.authentication_success_listener:
   # class: App\EventListener\AuthenticationSuccessListener

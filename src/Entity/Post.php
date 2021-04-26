@@ -111,12 +111,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  */
    private $content;
    /**
-    * @var string
+    * 
     * @ORM\Column(type="text")
-    * @Groups({"post",  "post_read", "get-post"})
+    * @Groups({"post_read", "get-post"})
     *
     */
-   private string $slug;
+   private  $slug;
 
    /**
     * @var DateTimeInterface
