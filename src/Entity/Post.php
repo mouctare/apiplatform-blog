@@ -147,7 +147,7 @@ private $comments;
   * @ORM\ManyToMany(targetEntity="App\Entity\Image")
   * @ORM\JoinTable()
   * @ApiSubresource()
-  * @Groups({"post", "get-post-with-author"})
+  * @Groups({"post", "get-post", "post_read"})
   */
   private $images;
 

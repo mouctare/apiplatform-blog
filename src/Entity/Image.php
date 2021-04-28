@@ -56,7 +56,7 @@ class Image
     /**
      * 
      * @ORM\Column(nullable=true)
-     * @Groups({"get-post-with-author" })
+     * @Groups({"post_read", "get-post" })
      */
     private $url;
 
